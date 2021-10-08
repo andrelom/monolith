@@ -49,8 +49,8 @@ namespace Monolith.Web.Identity.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0420bfbd-6130-4ffb-bfee-eb5198276639"),
-                            ConcurrencyStamp = "0420bfbd-6130-4ffb-bfee-eb5198276639",
+                            Id = new Guid("e5121d31-5f74-4ff6-a69f-9be0cad51d13"),
+                            ConcurrencyStamp = "e5121d31-5f74-4ff6-a69f-9be0cad51d13",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -147,17 +147,17 @@ namespace Monolith.Web.Identity.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7724711c-ab8c-4b74-842d-379f64325230"),
+                            Id = new Guid("bbac2c65-5923-4c38-9328-19a122836928"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7724711c-ab8c-4b74-842d-379f64325230",
+                            ConcurrencyStamp = "bbac2c65-5923-4c38-9328-19a122836928",
                             Email = "monolith@monolith.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MONOLITH@MONOLITH.COM",
                             NormalizedUserName = "MONOLITH",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPriu6dhEkY/YAMKiLUx2dhFIK50SHG/3FoIAV5YWBIt2AAe9+P5DPVpXBZzUwozJA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF523qdreOxGu3KN72Wp+KbbHmtNENKx7a3cVo/SBBMjzs6YZA8a3muuveib7GkUcA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7724711c-ab8c-4b74-842d-379f64325230",
+                            SecurityStamp = "bbac2c65-5923-4c38-9328-19a122836928",
                             TwoFactorEnabled = false,
                             UserName = "monolith"
                         });
@@ -224,8 +224,8 @@ namespace Monolith.Web.Identity.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("7724711c-ab8c-4b74-842d-379f64325230"),
-                            RoleId = new Guid("0420bfbd-6130-4ffb-bfee-eb5198276639")
+                            UserId = new Guid("bbac2c65-5923-4c38-9328-19a122836928"),
+                            RoleId = new Guid("e5121d31-5f74-4ff6-a69f-9be0cad51d13")
                         });
                 });
 

@@ -155,17 +155,17 @@ namespace Monolith.Web.Identity.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { new Guid("0420bfbd-6130-4ffb-bfee-eb5198276639"), "0420bfbd-6130-4ffb-bfee-eb5198276639", "Administrator", "ADMINISTRATOR" });
+                values: new object[] { new Guid("e5121d31-5f74-4ff6-a69f-9be0cad51d13"), "e5121d31-5f74-4ff6-a69f-9be0cad51d13", "Administrator", "ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("7724711c-ab8c-4b74-842d-379f64325230"), 0, "7724711c-ab8c-4b74-842d-379f64325230", "monolith@monolith.com", true, false, null, "MONOLITH@MONOLITH.COM", "MONOLITH", "AQAAAAEAACcQAAAAEPriu6dhEkY/YAMKiLUx2dhFIK50SHG/3FoIAV5YWBIt2AAe9+P5DPVpXBZzUwozJA==", null, false, "7724711c-ab8c-4b74-842d-379f64325230", false, "monolith" });
+                values: new object[] { new Guid("bbac2c65-5923-4c38-9328-19a122836928"), 0, "bbac2c65-5923-4c38-9328-19a122836928", "monolith@monolith.com", true, false, null, "MONOLITH@MONOLITH.COM", "MONOLITH", "AQAAAAEAACcQAAAAEF523qdreOxGu3KN72Wp+KbbHmtNENKx7a3cVo/SBBMjzs6YZA8a3muuveib7GkUcA==", null, false, "bbac2c65-5923-4c38-9328-19a122836928", false, "monolith" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { new Guid("0420bfbd-6130-4ffb-bfee-eb5198276639"), new Guid("7724711c-ab8c-4b74-842d-379f64325230") });
+                values: new object[] { new Guid("e5121d31-5f74-4ff6-a69f-9be0cad51d13"), new Guid("bbac2c65-5923-4c38-9328-19a122836928") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
