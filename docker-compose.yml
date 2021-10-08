@@ -41,8 +41,8 @@ services:
     restart: always
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-      - KEYS_PATH=${IDENTITY_KEYS_PATH}
-      - ISSUER_KEY=${IDENTITY_ISSUER_KEY}
+      - PROTECTION_KEYS_PATH=${IDENTITY_PROTECTION_KEYS_PATH}
+      - JWT_ISSUER_KEY=${IDENTITY_JWT_ISSUER_KEY}
     depends_on:
       - mssql
       - redis

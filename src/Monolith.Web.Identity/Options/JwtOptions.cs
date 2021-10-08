@@ -16,7 +16,7 @@ namespace Monolith.Web.Identity.Options
         public string Issuer { get; set; }
 
         [Required]
-        [Environment("ISSUER_KEY")]
+        [Environment("JWT_ISSUER_KEY")]
         public string IssuerKey { get; set; }
     }
 }

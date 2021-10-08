@@ -1,6 +1,8 @@
 using System;
+using System.IO;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,24 +49,18 @@ namespace Monolith.Core.Mvc.Extensions
         }
 
         /// <summary>
-        /// Add the default Core MVC Controllers.
+        /// Add the default Core MVC Data Protection.
         /// </summary>
         /// <param name="services">The service collection.</param>
-        /// <param name="setup">An action to configure the provided MVC Options.</param>
+        /// <param name="configuration">The configuration.</param>
         /// <returns>The service collection.</returns>
-        public static IServiceCollection AddCoreControllers(this IServiceCollection services, Action<MvcOptions> setup = null)
+        public static IServiceCollection AddCoreDataProtection(this IServiceCollection services, IConfiguration configuration)
         {
-            var builder = services.AddControllers(options =>
-            {
-                options.Filters.Add<FluentValidationActionFilter>();
+            var options = configuration.Load<ProtectionOptions>();
 
-                setup?.Invoke(options);
-            });
-
-            builder.ConfigureApiBehaviorOptions(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;
-            });
+            services.AddDataProtection()
+                .SetApplicationName(options.Name)
+                .PersistKeysToFileSystem(new DirectoryInfo(options.Path));
 
             return services;
         }
@@ -102,6 +98,29 @@ namespace Monolith.Core.Mvc.Extensions
             {
                 redis.InstanceName = options.Instance;
                 redis.ConfigurationOptions = ConfigurationOptions.Parse(options.Hostname);
+            });
+
+            return services;
+        }
+
+        /// <summary>
+        /// Add the default Core MVC Controllers.
+        /// </summary>
+        /// <param name="services">The service collection.</param>
+        /// <param name="setup">An action to configure the provided MVC Options.</param>
+        /// <returns>The service collection.</returns>
+        public static IServiceCollection AddCoreControllers(this IServiceCollection services, Action<MvcOptions> setup = null)
+        {
+            var builder = services.AddControllers(options =>
+            {
+                options.Filters.Add<FluentValidationActionFilter>();
+
+                setup?.Invoke(options);
+            });
+
+            builder.ConfigureApiBehaviorOptions(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
             });
 
             return services;

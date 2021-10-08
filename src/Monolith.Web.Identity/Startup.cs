@@ -1,10 +1,8 @@
 using System;
-using System.IO;
 using System.Text;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -32,14 +30,11 @@ namespace Monolith.Web.Identity
     {
         private readonly IConfiguration _configuration;
 
-        private readonly ProjectOptions _projectOptions;
-
         private readonly JwtOptions _jwtOptions;
 
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
-            _projectOptions = configuration.Load<ProjectOptions>();
             _jwtOptions = configuration.Load<JwtOptions>();
         }
 
@@ -50,11 +45,6 @@ namespace Monolith.Web.Identity
 
             // DI from "Microsoft.AspNetCore.Identity.EntityFrameworkCore".
             services.AddDbContext<DefaultDbContext>(AddDbContext);
-
-            // DI from "?".
-            services.AddDataProtection()
-                .SetApplicationName(_projectOptions.ApplicationName)
-                .PersistKeysToFileSystem(new DirectoryInfo(_projectOptions.KeysPath));
 
             // DI from "Microsoft.AspNetCore.Identity".
             AddIdentity(services);
@@ -69,6 +59,7 @@ namespace Monolith.Web.Identity
 
             services
                 .AddCoreDefaults()
+                .AddCoreDataProtection(_configuration)
                 .AddCoreSession(_configuration)
                 .AddCoreRedisCache(_configuration)
                 .AddCoreControllers()
