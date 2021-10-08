@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+  labels:
+    name: worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: worker
+  template:
+    metadata:
+      labels:
+        name: worker
+    spec:
+      containers:
+      - name: worker
+        image: registry.digitalocean.com/ed0cb35a/worker
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: "0"

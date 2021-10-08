@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Monolith.Core\Monolith.Core.csproj" />
+      <ProjectReference Include="..\Monolith.Foundation.Messaging\Monolith.Foundation.Messaging.csproj" />
+    </ItemGroup>
+
+</Project>

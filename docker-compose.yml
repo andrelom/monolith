@@ -1,0 +1,63 @@
+version: '3'
+services:
+  #
+  # MS SQL Server
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    container_name: mssql
+    restart: always
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=${MSSQL_ACCEPT_EULA}
+      - MSSQL_PID=${MSSQL_PID}
+      - SA_PASSWORD=${MSSQL_SA_PASSWORD}
+  #
+  # Redis
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - 6379:6379
+  #
+  # RabbitMQ
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./docker/data/rabbitmq/lib/:/var/lib/rabbitmq/
+      - ./docker/data/rabbitmq/log/:/var/log/rabbitmq/
+  #
+  # Monolith.Web.Identity
+  identity:
+    build:
+      context: ./
+      dockerfile: ./docker/build/identity/Dockerfile
+    container_name: identity
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - KEYS_PATH=${IDENTITY_KEYS_PATH}
+      - ISSUER_KEY=${IDENTITY_ISSUER_KEY}
+    depends_on:
+      - mssql
+      - redis
+      - rabbitmq
+    ports:
+      - 80:80
+  #
+  # Monolith.Worker.Default
+  worker:
+    build:
+      context: ./
+      dockerfile: ./docker/build/worker/Dockerfile
+    container_name: worker
+    restart: always
+    environment:
+      - DOTNET_ENVIRONMENT=${DOTNET_ENVIRONMENT}
+    depends_on:
+      - rabbitmq

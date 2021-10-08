@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identity
+  labels:
+    name: identity
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: identity
+  template:
+    metadata:
+      labels:
+        name: identity
+    spec:
+      containers:
+      - name: identity
+        image: registry.digitalocean.com/ed0cb35a/identity
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          httpGet:
+            path: /_/liveness
+            port: 80
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: "0"

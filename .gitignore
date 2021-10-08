@@ -1,0 +1,20 @@
+#
+# Folders
+
+.vs/
+.idea/
+
+bin/
+obj/
+
+docker/data/rabbitmq/*/*
+
+#
+# Files
+
+.DS_Store
+
+*.user
+*.log
+
+!**/.gitkeep
