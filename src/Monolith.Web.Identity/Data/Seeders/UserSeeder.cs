@@ -20,7 +20,7 @@ namespace Monolith.Web.Identity.Data.Seeders
         {
             const string name = "monolith";
             const string email = "monolith@monolith.com";
-            const string password = "#QwTXb6g2kt2HvDx";
+            const string password = "&QwTXb6g2kt2HvDx";
 
             var id = AdministratorUserId;
             var hasher = new PasswordHasher<User>();
