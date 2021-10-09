@@ -6,6 +6,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Monolith.Core.Mvc\Monolith.Core.Mvc.csproj" />
+      <ProjectReference Include="..\Monolith.Foundation.Identity\Monolith.Foundation.Identity.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-namespace Monolith.Web.Identity
+﻿namespace Monolith.Foundation.Identity
 {
     public static class Roles
     {

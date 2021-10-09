@@ -2,7 +2,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Monolith.Core.Extensions;
-using Monolith.Core.Mvc.Options;
+using Monolith.Foundation.Identity.Options;
 
 namespace Monolith.Web.Identity.Providers
 {

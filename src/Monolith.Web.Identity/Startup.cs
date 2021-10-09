@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Monolith.Core.Mvc.Extensions;
+using Monolith.Foundation.Identity.Extensions;
 using Monolith.Foundation.Mail.Extensions;
 using Monolith.Foundation.Messaging.Extensions;
 using Monolith.Web.Identity.Data.Contexts;
@@ -47,7 +48,6 @@ namespace Monolith.Web.Identity
                 .AddCoreDataProtection(_configuration)
                 .AddCoreSession(_configuration)
                 .AddCoreRedisCache(_configuration)
-                .AddCoreAuthentication(_configuration)
                 .AddCoreControllers()
                 .AddCoreSwagger(AddSwagger);
 
@@ -55,6 +55,7 @@ namespace Monolith.Web.Identity
             // Foundation
 
             services
+                .AddFoundationIdentity(_configuration)
                 .AddFoundationMessaging()
                 .AddFoundationMail();
 

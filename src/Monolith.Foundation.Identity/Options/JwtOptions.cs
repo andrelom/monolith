@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using Monolith.Core.Attributes;
 
-namespace Monolith.Core.Mvc.Options
+namespace Monolith.Foundation.Identity.Options
 {
-    [Option("Core:Mvc:JWT")]
+    [Option("Foundation:Identity:JWT")]
     public class JwtOptions
     {
         [Required]

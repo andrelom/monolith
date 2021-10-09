@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Monolith.Core.Extensions;
-using Monolith.Core.Mvc.Options;
+using Monolith.Foundation.Identity.Options;
 using Monolith.Web.Identity.Data.Entities;
 
 namespace Monolith.Web.Identity.Providers

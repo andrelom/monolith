@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Monolith.Core.Mvc.Extensions;
+using Monolith.Foundation.Identity.Extensions;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
@@ -26,9 +27,14 @@ namespace Monolith.Web.Default
             services
                 .AddCoreDefaults()
                 .AddCoreRedisCache(_configuration)
-                .AddCoreAuthentication(_configuration)
                 .AddCoreControllers()
                 .AddCoreSwagger(AddSwagger);
+
+            //
+            // Foundation
+
+            services
+                .AddFoundationIdentity(_configuration);
 
             //
             // Health Checks
