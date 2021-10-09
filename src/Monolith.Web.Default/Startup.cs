@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Monolith.Core.Mvc.Extensions;
 using Monolith.Foundation.Identity.Extensions;
+using Monolith.Web.Default.Healthz;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
@@ -40,7 +41,8 @@ namespace Monolith.Web.Default
             // Health Checks
 
             services
-                .AddHealthChecks();
+                .AddHealthChecks()
+                .AddCheck<DefaultHealthCheck>("Default");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
