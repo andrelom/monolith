@@ -53,9 +53,7 @@ namespace Monolith.Web.Default
 
             app.UseRouting();
 
-            app.UseAuthentication();
-
-            app.UseAuthorization();
+            app.UseFoundationIdentity();
 
             app.UseCoreEndpoints();
 

@@ -91,9 +91,7 @@ namespace Monolith.Web.Identity
 
             app.UseRouting();
 
-            app.UseAuthentication();
-
-            app.UseAuthorization();
+            app.UseFoundationIdentity();
 
             app.UseSession();
 
