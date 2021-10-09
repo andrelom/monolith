@@ -1,5 +1,11 @@
 set -o allexport; source .env; set +o allexport
 
+declare -a containers=(
+  "identity"
+  "default"
+  "worker"
+)
+
 # Menu
 
 help() {
@@ -16,16 +22,18 @@ help() {
 # Tasks
 
 build() {
-  docker build --no-cache -t identity -f ./docker/build/identity/Dockerfile .
-  docker tag identity $REGISTRY/identity
-
-  docker build --no-cache -t worker -f ./docker/build/worker/Dockerfile .
-  docker tag worker $REGISTRY/worker
+  for container in "${containers[@]}"
+  do
+    docker build --no-cache -t $REGISTRY/$container -f ./docker/build/$container/Dockerfile .
+    docker tag $container $REGISTRY/$container
+  done
 }
 
 push() {
-  docker push $REGISTRY/identity
-  docker push $REGISTRY/worker
+  for container in "${containers[@]}"
+  do
+    docker push $REGISTRY/$container
+  done
 }
 
 up() {
