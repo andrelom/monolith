@@ -1,11 +1,14 @@
 using System;
 using System.IO;
+using System.Text;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Monolith.Core.Extensions;
 using Monolith.Core.Mvc.Filters;
 using Monolith.Core.Mvc.Framework;
@@ -98,6 +101,43 @@ namespace Monolith.Core.Mvc.Extensions
             {
                 redis.InstanceName = options.Instance;
                 redis.ConfigurationOptions = ConfigurationOptions.Parse(options.Hostname);
+            });
+
+            return services;
+        }
+
+        /// <summary>
+        /// Add the default Core MVC JWT Authentication.
+        /// </summary>
+        /// <param name="services">The service collection.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns>The service collection.</returns>
+        public static IServiceCollection AddCoreAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            var options = configuration.Load<JwtOptions>();
+
+            var service = services.AddAuthentication(authentication =>
+            {
+                authentication.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                authentication.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                authentication.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            });
+
+            service.AddJwtBearer(jwt =>
+            {
+                // In distributed applications, it should be false.
+                jwt.SaveToken = false;
+
+                // Parameters used to validate the identity token.
+                jwt.TokenValidationParameters = new()
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = options.Issuer,
+                    ValidateAudience = true,
+                    ValidAudience = options.Audience,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.IssuerKey))
+                };
             });
 
             return services;
