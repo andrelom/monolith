@@ -49,8 +49,6 @@ services:
       - mssql
       - redis
       - rabbitmq
-    ports:
-      - 37758:80
   #
   # Monolith.Web.Default
   default:
@@ -66,8 +64,6 @@ services:
       - JWT_ISSUER_KEY=${JWT_ISSUER_KEY}
     depends_on:
       - redis
-    ports:
-      - 43532:80
   #
   # Monolith.Worker.Default
   worker:
