@@ -33,6 +33,19 @@ services:
       - ./docker/data/rabbitmq/lib/:/var/lib/rabbitmq/
       - ./docker/data/rabbitmq/log/:/var/log/rabbitmq/
   #
+  # Monolith.Worker.Default
+  worker:
+    build:
+      context: ./
+      dockerfile: ./docker/build/worker/Dockerfile
+    image: ${REGISTRY}/worker
+    container_name: worker
+    restart: always
+    environment:
+      - DOTNET_ENVIRONMENT=${DOTNET_ENVIRONMENT}
+    depends_on:
+      - rabbitmq
+  #
   # Monolith.Web.Identity
   identity:
     build:
@@ -64,16 +77,3 @@ services:
       - JWT_ISSUER_KEY=${JWT_ISSUER_KEY}
     depends_on:
       - redis
-  #
-  # Monolith.Worker.Default
-  worker:
-    build:
-      context: ./
-      dockerfile: ./docker/build/worker/Dockerfile
-    image: ${REGISTRY}/worker
-    container_name: worker
-    restart: always
-    environment:
-      - DOTNET_ENVIRONMENT=${DOTNET_ENVIRONMENT}
-    depends_on:
-      - rabbitmq
