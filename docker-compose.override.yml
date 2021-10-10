@@ -1,0 +1,35 @@
+version: '3'
+services:
+  #
+  # Traefik
+  traefik:
+    image: "traefik:v2.5"
+    container_name: "traefik"
+    command:
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+    ports:
+      - 80:80
+      - 8089:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+  #
+  # Monolith.Web.Identity
+  identity:
+    image: ${REGISTRY}/identity
+    container_name: identity
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.identity.rule=Host(`identity.monolith.localhost`)
+      - traefik.http.routers.identity.entrypoints=web
+  #
+  # Monolith.Web.Default
+  default:
+    image: ${REGISTRY}/default
+    container_name: default
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.default.rule=Host(`default.monolith.localhost`)
+      - traefik.http.routers.default.entrypoints=web

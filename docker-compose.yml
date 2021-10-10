@@ -19,6 +19,7 @@ services:
     container_name: redis
     ports:
       - 6379:6379
+    scale: 0
   #
   # RabbitMQ
   rabbitmq:
@@ -37,6 +38,7 @@ services:
     build:
       context: ./
       dockerfile: ./docker/build/identity/Dockerfile
+    image: ${REGISTRY}/identity
     container_name: identity
     restart: always
     environment:
@@ -48,13 +50,31 @@ services:
       - redis
       - rabbitmq
     ports:
-      - 80:80
+      - 37758:80
+  #
+  # Monolith.Web.Default
+  default:
+    build:
+      context: ./
+      dockerfile: ./docker/build/default/Dockerfile
+    image: ${REGISTRY}/default
+    container_name: default
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - PROTECTION_KEYS_PATH=${PROTECTION_KEYS_PATH}
+      - JWT_ISSUER_KEY=${JWT_ISSUER_KEY}
+    depends_on:
+      - redis
+    ports:
+      - 43532:80
   #
   # Monolith.Worker.Default
   worker:
     build:
       context: ./
       dockerfile: ./docker/build/worker/Dockerfile
+    image: ${REGISTRY}/worker
     container_name: worker
     restart: always
     environment:

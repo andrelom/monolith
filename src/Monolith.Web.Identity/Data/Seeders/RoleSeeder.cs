@@ -1,5 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
+using Monolith.Foundation.Identity;
 using Monolith.Web.Identity.Data.Entities;
 
 namespace Monolith.Web.Identity.Data.Seeders

@@ -1,24 +1,18 @@
 using System;
-using System.Text;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Monolith.Core.Extensions;
 using Monolith.Core.Mvc.Extensions;
+using Monolith.Foundation.Identity.Extensions;
 using Monolith.Foundation.Mail.Extensions;
 using Monolith.Foundation.Messaging.Extensions;
 using Monolith.Web.Identity.Data.Contexts;
 using Monolith.Web.Identity.Data.Entities;
 using Monolith.Web.Identity.Healthz;
-using Monolith.Web.Identity.Options;
 using Monolith.Web.Identity.Providers;
 using Monolith.Web.Identity.Services;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -30,12 +24,9 @@ namespace Monolith.Web.Identity
     {
         private readonly IConfiguration _configuration;
 
-        private readonly JwtOptions _jwtOptions;
-
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
-            _jwtOptions = configuration.Load<JwtOptions>();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -48,11 +39,6 @@ namespace Monolith.Web.Identity
 
             // DI from "Microsoft.AspNetCore.Identity".
             AddIdentity(services);
-
-            // DI from "Microsoft.AspNetCore.Identity".
-            services
-                .AddAuthentication(AddAuthentication)
-                .AddJwtBearer(AddJwtBearer);
 
             //
             // Core MVC
@@ -69,6 +55,7 @@ namespace Monolith.Web.Identity
             // Foundation
 
             services
+                .AddFoundationIdentity(_configuration)
                 .AddFoundationMessaging()
                 .AddFoundationMail();
 
@@ -96,11 +83,6 @@ namespace Monolith.Web.Identity
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
             app.UseCoreMiddlewares();
 
             app.UseCoreSwagger(UseSwagger);
@@ -109,9 +91,7 @@ namespace Monolith.Web.Identity
 
             app.UseRouting();
 
-            app.UseAuthentication();
-
-            app.UseAuthorization();
+            app.UseFoundationIdentity();
 
             app.UseSession();
 
@@ -155,30 +135,6 @@ namespace Monolith.Web.Identity
                 options.Password.RequiredLength = 8;
                 options.Password.RequiredUniqueChars = 1;
             });
-        }
-
-        private void AddAuthentication(AuthenticationOptions options)
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-        }
-
-        private void AddJwtBearer(JwtBearerOptions options)
-        {
-            // In distributed applications, it should be false.
-            options.SaveToken = false;
-
-            // Parameters used to validate the identity token.
-            options.TokenValidationParameters = new()
-            {
-                ValidateIssuer = true,
-                ValidIssuer = _jwtOptions.Issuer,
-                ValidateAudience = true,
-                ValidAudience = _jwtOptions.Audience,
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.IssuerKey))
-            };
         }
 
         private void AddSwagger(SwaggerGenOptions options)

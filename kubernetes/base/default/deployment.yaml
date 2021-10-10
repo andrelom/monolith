@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: default
+  labels:
+    name: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: default
+  template:
+    metadata:
+      labels:
+        name: default
+    spec:
+      containers:
+      - name: default
+        image: registry.digitalocean.com/ed0cb35a/default
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          httpGet:
+            path: /_/liveness
+            port: 80
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: "0"

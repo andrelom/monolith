@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Monolith.Core.Mvc\Monolith.Core.Mvc.csproj" />
+      <ProjectReference Include="..\Monolith.Foundation.Identity\Monolith.Foundation.Identity.csproj" />
+    </ItemGroup>
+
+</Project>

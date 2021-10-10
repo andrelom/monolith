@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Monolith.Core.Mvc;
+using Monolith.Foundation.Identity;
 using Monolith.Web.Identity.Models;
 using Monolith.Web.Identity.Requests.Users;
 using Monolith.Web.Identity.Services;
