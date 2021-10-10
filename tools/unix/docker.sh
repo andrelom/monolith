@@ -1,6 +1,6 @@
 set -o allexport; source .env; set +o allexport
 
-declare -a containers=(
+declare -a CONTAINERS=(
   "identity"
   "default"
   "worker"
@@ -22,17 +22,17 @@ help() {
 # Tasks
 
 build() {
-  for container in "${containers[@]}"
+  for CONTAINER in "${CONTAINERS[@]}"
   do
-    docker build --no-cache -t $REGISTRY/$container -f ./docker/build/$container/Dockerfile .
-    docker tag $container $REGISTRY/$container
+    docker build --no-cache -t $REGISTRY/$CONTAINER -f ./docker/build/$CONTAINER/Dockerfile .
+    docker tag $CONTAINER $REGISTRY/$CONTAINER
   done
 }
 
 push() {
-  for container in "${containers[@]}"
+  for CONTAINER in "${CONTAINERS[@]}"
   do
-    docker push $REGISTRY/$container
+    docker push $REGISTRY/$CONTAINER
   done
 }
 
