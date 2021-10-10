@@ -1,8 +1,8 @@
 set -o allexport; source .env; set +o allexport
 
 declare -a HOSTS=(
-  "identity.monolith.local"
-  "default.monolith.local"
+  "identity.monolith.localhost"
+  "default.monolith.localhost"
 )
 
 # Menu
