@@ -54,7 +54,7 @@ namespace Monolith.Web.Identity.Controllers
         }
 
         [HttpPost]
-        [Route("confirm-signup")]
+        [Route("confirmsignup")]
         public async Task<IActionResult> ConfirmSignUpAsync([FromBody] ConfirmSignUpRequest req)
         {
             var res = await _accountService.ConfirmSignUpAsync(req).ConfigureAwait(false);
@@ -81,7 +81,7 @@ namespace Monolith.Web.Identity.Controllers
         }
 
         [HttpPost]
-        [Route("reset-password")]
+        [Route("resetpassword")]
         public async Task<IActionResult> ResetPasswordAsync([FromBody] ResetPasswordRequest req)
         {
             var res = await _accountService.ResetPasswordAsync(req).ConfigureAwait(false);
