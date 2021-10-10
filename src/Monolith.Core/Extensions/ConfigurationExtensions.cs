@@ -19,7 +19,7 @@ namespace Monolith.Core.Extensions
                 throw new Exception($"Options from '{source.FullName}', not found for '{name}'");
             }
 
-            SetEnvironmentValues(options);
+            Environments(options);
 
             Validate(options);
 
@@ -41,26 +41,7 @@ namespace Monolith.Core.Extensions
 
         #region Private Methods
 
-        private static void Validate<T>(T options)
-        {
-            var source = typeof(T);
-            var validations = new List<ValidationResult>();
-            var context = new ValidationContext(options, null, null);
-
-            Validator.TryValidateObject(options, context, validations, true);
-
-            if (!validations.Any())
-            {
-                return;
-            }
-
-            var errors = validations.Select(entry => entry.ErrorMessage);
-            var message = string.Join('\n', errors);
-
-            throw new Exception($"One or more properties from '{source.FullName}' are invalid:\n{message}");
-        }
-
-        private static void SetEnvironmentValues<T>(T options)
+        private static void Environments<T>(T options)
         {
             var source = typeof(T);
             var target = typeof(EnvironmentAttribute);
@@ -85,6 +66,25 @@ namespace Monolith.Core.Extensions
                     property.SetValue(options, envValue);
                 }
             }
+        }
+
+        private static void Validate<T>(T options)
+        {
+            var source = typeof(T);
+            var validations = new List<ValidationResult>();
+            var context = new ValidationContext(options, null, null);
+
+            Validator.TryValidateObject(options, context, validations, true);
+
+            if (!validations.Any())
+            {
+                return;
+            }
+
+            var errors = validations.Select(entry => entry.ErrorMessage);
+            var message = string.Join('\n', errors);
+
+            throw new Exception($"One or more properties from '{source.FullName}' are invalid:\n{message}");
         }
 
         #endregion
