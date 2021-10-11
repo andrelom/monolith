@@ -118,7 +118,9 @@ namespace Monolith.Web.Identity.Services
             var token = await _userManager.GeneratePasswordResetTokenAsync(user).ConfigureAwait(false);
             var res = await _mailSenderService.SendResetPasswordTokenAsync(user, token).ConfigureAwait(false);
 
-            return Result.Success();
+            return res.Succeeded
+                ? Result.Success()
+                : Result.Failure(res.Error, res.Validations?.ToArray());
         }
 
         public async Task<Result> ResetPasswordAsync(ResetPasswordRequest req)
