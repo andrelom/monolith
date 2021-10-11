@@ -43,9 +43,8 @@ namespace Monolith.Web.Identity.Controllers
                 return StatusCode(StatusCodes.Status400BadRequest, resSignUp);
             }
 
-            var reqSendSignUpConfirmation = new SendSignUpConfirmationRequest() { Username = reqSignUp.Username };
             var resSendSignUpConfirmation = await _accountService.SendSignUpConfirmationAsync(
-                reqSendSignUpConfirmation).ConfigureAwait(false);
+                new() { Username = reqSignUp.Username }).ConfigureAwait(false);
 
             // TODO: What to do with the account created earlier, if an error occurs?
             return resSendSignUpConfirmation.Succeeded
