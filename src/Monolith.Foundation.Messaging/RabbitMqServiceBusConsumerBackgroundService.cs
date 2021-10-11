@@ -36,9 +36,9 @@ namespace Monolith.Foundation.Messaging
 
         protected override Task ExecuteAsync(CancellationToken token)
         {
-            var consumer = new EventingBasicConsumer(_model);
+            var consumer = new AsyncEventingBasicConsumer(_model);
 
-            consumer.Received += async (sender, args) =>
+            consumer.Received += async (_, args) =>
             {
                 if (!token.IsCancellationRequested)
                 {
